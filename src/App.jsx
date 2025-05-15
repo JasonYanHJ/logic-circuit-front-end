@@ -26,10 +26,11 @@ const App = () => {
             <Route path="/login" element={<LoginAndRegisterForm />} />
 
             <Route element={<Layout />}>
-              <Route path="/welcome" element={<div>hello</div>} />
+              <Route path="/draw" element={<div>画布</div>} />
+              <Route path="/list" element={<div>我保存的电路列表</div>} />
             </Route>
 
-            <Route path="/" element={<Navigate to="/welcome" replace />} />
+            <Route path="/" element={<Navigate to="/draw" replace />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </Router>
