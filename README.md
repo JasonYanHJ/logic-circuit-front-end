@@ -1,12 +1,114 @@
-# React + Vite
+# 集成电路设计系统前端
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+一个基于 React + GoJS 的交互式逻辑电路设计和仿真系统。
 
-Currently, two official plugins are available:
+## 功能特性
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🎨 **可视化电路设计** - 拖拽式界面，支持多种逻辑门和组件
+- ⚡ **实时电路仿真** - 实时查看信号传播和逻辑运算结果
+- 💾 **保存/加载功能** - 本地存储电路设计
+- 🔌 **丰富的组件库** - 包含基础逻辑门、输入输出组件等13种元件
+- 🎯 **智能连线路由** - 自动避障和优化的连接线路径
 
-## Expanding the ESLint configuration
+## 快速开始
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 环境要求
+
+- Node.js >= 16.0.0
+- npm >= 7.0.0
+
+### 安装
+
+```bash
+# 克隆项目
+git clone [repository-url]
+
+# 进入项目目录
+cd front-end
+
+# 安装依赖
+npm install
+```
+
+### 启动开发服务器
+
+```bash
+npm run dev
+```
+
+访问 http://localhost:5173 查看应用
+
+### 构建生产版本
+
+```bash
+npm run build
+```
+
+### 其他命令
+
+```bash
+# 预览生产构建
+npm run preview
+
+# 运行代码检查
+npm run lint
+```
+
+## 技术架构
+
+### 核心技术栈
+
+- **React 18** - 用户界面框架
+- **GoJS** - 图表绘制和交互库
+- **Ant Design** - UI 组件库
+- **Vite** - 构建工具和开发服务器
+- **React Router v7** - 路由管理
+
+### 项目结构
+
+```
+src/
+├── module/                 # 功能模块
+│   ├── auth/              # 认证模块
+│   ├── circuits-list/     # 电路列表
+│   ├── draw/              # 核心绘图模块
+│   │   ├── components/    # React 组件
+│   │   ├── contexts/      # 状态管理
+│   │   ├── templates/     # GoJS 模板
+│   │   ├── utils/         # 工具函数
+│   │   └── extensions/    # GoJS 扩展
+│   └── layout/            # 布局组件
+└── service/               # API 服务
+```
+
+### 核心模块说明
+
+#### 电路绘图模块 (`/draw`)
+
+- **组件层** - 封装 GoJS 图表、调色板和工具栏
+- **模板层** - 定义各种电路元件的外观和行为
+- **逻辑层** - 实现电路仿真算法
+- **上下文层** - 使用 React Context 管理共享状态
+
+#### 关键设计特性
+
+1. **模板共享机制** - 通过 Context 在图表和调色板间共享节点模板
+2. **实时仿真引擎** - 250ms 循环更新，模拟真实电路行为
+3. **智能路由系统** - 使用 AvoidsLinksRouter 优化连线布局
+4. **状态持久化** - 基于 localStorage 的保存/加载功能
+
+## 使用指南
+
+1. **添加组件** - 从左侧元件库拖拽组件到画布
+2. **连接组件** - 拖拽端口创建连接线
+3. **交互操作** - 点击输入/开关组件改变状态
+4. **开始仿真** - 点击工具栏的"开始仿真"按钮
+5. **保存设计** - 使用"保存"按钮存储到本地
+
+## 开发指南
+
+详细的开发文档请参考 [CLAUDE.md](./CLAUDE.md)
+
+## License
+
+[Your License Here]
