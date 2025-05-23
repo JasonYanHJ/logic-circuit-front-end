@@ -86,16 +86,6 @@ relinkableTo: true
 4. Handle save/load through React state
 5. Integrate with existing auth/API for persistence
 
-### Component Structure
-```
-DrawPage.jsx
-├── DiagramCanvas component
-│   ├── GoJS initialization
-│   ├── Node/link templates
-│   └── Simulation loop
-├── Palette component
-└── Save/Load controls
-```
 
 ### Migration Considerations
 - Replace inline event handlers with React event handlers

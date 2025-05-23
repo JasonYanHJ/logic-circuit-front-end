@@ -14,7 +14,7 @@ import {
 import PageNotFound from "./module/layout/PageNotFound";
 import LoginAndRegisterForm from "./module/auth/LoginAndRegister";
 import { AuthProvider } from "./module/auth/useAuth";
-import DrawPage from "./module/draw/DrawPage";
+import DrawPage from "./module/draw";
 
 dayjs.locale("zh-cn");
 
