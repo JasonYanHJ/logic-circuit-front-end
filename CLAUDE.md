@@ -17,6 +17,7 @@ This is a React + Vite frontend application for an integrated circuit design sys
 ### Core Technologies
 - **React 18** with React Router v7 for routing
 - **Ant Design** and Ant Design Pro Components for UI
+- **GoJS** for circuit diagram visualization and editing
 - **Vite** as the build tool and dev server
 - **ESLint** for linting (no TypeScript yet)
 
@@ -37,3 +38,128 @@ This is a React + Vite frontend application for an integrated circuit design sys
 - Auth tokens are automatically added to headers
 - `withMessage` wrapper provides automatic success/error notifications using Ant Design's message component
 - API errors are handled with custom `ApiError` class
+
+## GoJS Logic Circuit Integration
+
+### Overview
+The project includes a GoJS-based logic circuit editor migrated from `./GoJS-example/samples/logicCircuit.html`. This provides an interactive circuit design canvas with simulation capabilities.
+
+### Required GoJS Extensions
+1. **Figures.js** - Provides custom logic gate shapes:
+   - `AndGate`, `OrGate`, `XorGate` - Basic logic gates
+   - `NandGate`, `NorGate`, `XnorGate` - Gates with inverted outputs
+   - `Inverter` - NOT gate
+   - Custom port positioning required for gates with output circles
+
+2. **AvoidsLinksRouter.js** - Intelligent link routing:
+   - Prevents overlapping of orthogonal links
+   - Configurable link spacing (recommend `epsilonDistance: 6`)
+   - Automatically avoids nodes when routing
+
+### Key Implementation Details
+
+#### Node Templates
+- Use `go.Node('Spot')` for positioning ports
+- Input/output ports defined with specific alignments
+- Gates use custom figures from Figures.js
+- Interactive elements (switches, inputs) handle click events
+
+#### Link Configuration
+```javascript
+routing: go.Routing.AvoidsNodes,
+curve: go.Curve.JumpOver,
+corner: 3,
+relinkableFrom: true,
+relinkableTo: true
+```
+
+#### Simulation Logic
+- Continuous update loop (250ms intervals)
+- Color-based state propagation (green = true/1, red = false/0)
+- Logic evaluation functions for each gate type
+- Input nodes (batteries, switches) are user-interactive
+
+#### React Integration Approach
+1. Create a React component wrapper for the GoJS diagram
+2. Initialize diagram in `useEffect` with cleanup
+3. Manage diagram instance with `useRef`
+4. Handle save/load through React state
+5. Integrate with existing auth/API for persistence
+
+### Component Structure
+```
+DrawPage.jsx
+├── DiagramCanvas component
+│   ├── GoJS initialization
+│   ├── Node/link templates
+│   └── Simulation loop
+├── Palette component
+└── Save/Load controls
+```
+
+### Migration Considerations
+- Replace inline event handlers with React event handlers
+- Use React state for model persistence
+- Integrate with existing API endpoints for saving circuits
+- Maintain separation between GoJS logic and React components
+- Consider performance optimization for large circuits
+
+## GoJS to React Migration Plan
+
+### File Organization Structure
+```
+src/module/draw/
+├── index.jsx                    # 主入口，整合所有组件
+├── components/
+│   ├── CircuitDiagram.jsx      # GoJS 图表核心组件
+│   ├── CircuitPalette.jsx      # 元件面板组件
+│   ├── CircuitToolbar.jsx      # 工具栏（保存、加载等）
+│   └── CircuitSimulator.js     # 仿真逻辑（纯 JS）
+├── contexts/
+│   └── CircuitContext.jsx      # 电路状态管理 Context
+├── templates/
+│   ├── nodeTemplates.js        # 节点模板定义
+│   ├── linkTemplate.js         # 连接线模板
+│   └── tooltipTemplate.js      # 工具提示模板
+├── utils/
+│   ├── gojsConfig.js           # GoJS 配置和初始化
+│   ├── circuitLogic.js         # 电路逻辑计算
+│   └── constants.js            # 颜色、尺寸等常量
+└── extensions/
+    ├── Figures.js              # 从 GoJS-example 复制
+    └── AvoidsLinksRouter.js    # 从 GoJS-example 复制
+```
+
+### Key Implementation Strategies
+
+#### 1. GoJS Instance Isolation
+- Use `useRef` to get container element
+- Initialize GoJS in `useEffect` with proper cleanup
+- Store diagram instance in component state
+
+#### 2. Template Modularization
+- Each node type gets its own template factory function
+- Templates accept GoJS instance as parameter
+- Export all templates from centralized module
+
+#### 3. State Management with Context
+- CircuitContext manages circuit model and simulation state
+- Provides centralized state for all circuit components
+- Enables communication between toolbar, diagram, and palette
+
+#### 4. Simulation Loop Management
+- Use React's `useEffect` to manage simulation intervals
+- Clean up intervals on component unmount or state change
+- Keep simulation logic separate from rendering logic
+
+#### 5. Extension Loading Strategy
+- Copy extension files to local project
+- Import extensions in gojsConfig.js
+- Initialize routers and figures before diagram setup
+
+### Migration Best Practices
+1. **Avoid Direct DOM Manipulation** - Let GoJS manage its own container
+2. **Lifecycle Synchronization** - Initialize in useEffect, cleanup in return
+3. **Event Bridging** - GoJS events trigger React state updates via callbacks
+4. **Performance Optimization** - Use React.memo and careful re-render management
+5. **Clear Separation of Concerns** - Keep GoJS logic separate from React logic
