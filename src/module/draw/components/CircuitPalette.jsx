@@ -18,14 +18,19 @@ const CircuitPalette = () => {
 
     // 设置调色板中的元件
     palette.model = new go.GraphLinksModel([
+      // 交互组件
+      { category: "input", isOn: true },
+      { category: "switch", isOn: true },
+      { category: "output", isOn: false },
+      // 基础逻辑门
       { category: "and" },
       { category: "or" },
       { category: "xor" },
       { category: "not" },
+      // 带反相输出的逻辑门
       { category: "nand" },
       { category: "nor" },
       { category: "xnor" },
-      // TODO: 添加 input, output, switch
     ]);
 
     // 将 palette 实例保存到 context

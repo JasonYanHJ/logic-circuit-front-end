@@ -19,6 +19,13 @@ import {
 // 导入连接线模板
 import { createLinkTemplate } from './linkTemplate';
 
+// 导入交互组件
+import {
+  createInputTemplate,
+  createSwitchTemplate,
+  createOutputTemplate
+} from './interactiveComponents';
+
 // 创建并返回节点模板映射
 export function createNodeTemplateMap() {
   const nodeTemplateMap = new go.Map();
@@ -34,7 +41,10 @@ export function createNodeTemplateMap() {
   nodeTemplateMap.add('nor', createNorTemplate());
   nodeTemplateMap.add('xnor', createXnorTemplate());
   
-  // TODO: 后续添加 input、output、switch 等模板
+  // 注册交互组件模板
+  nodeTemplateMap.add('input', createInputTemplate());
+  nodeTemplateMap.add('switch', createSwitchTemplate());
+  nodeTemplateMap.add('output', createOutputTemplate());
   
   return nodeTemplateMap;
 }
@@ -48,5 +58,8 @@ export {
   createNandTemplate,
   createNorTemplate,
   createXnorTemplate,
-  createLinkTemplate
+  createLinkTemplate,
+  createInputTemplate,
+  createSwitchTemplate,
+  createOutputTemplate
 };
