@@ -5,7 +5,7 @@ import { initializePalette } from "../utils/gojsConfig";
 
 const CircuitPalette = () => {
   const paletteRef = useRef(null);
-  const { setPalette } = useCircuit();
+  const { setPalette, nodeTemplateMap } = useCircuit();
 
   useEffect(() => {
     if (!paletteRef.current) return;
@@ -13,13 +13,19 @@ const CircuitPalette = () => {
     // 使用配置函数初始化 GoJS 调色板
     const palette = initializePalette(paletteRef.current);
 
-    // 临时添加一些基础节点数据，后续会替换为实际的电路元件
+    // 使用共享的节点模板
+    palette.nodeTemplateMap = nodeTemplateMap;
+
+    // 设置调色板中的元件
     palette.model = new go.GraphLinksModel([
-      { category: "input", text: "输入" },
-      { category: "output", text: "输出" },
-      { category: "and", text: "AND" },
-      { category: "or", text: "OR" },
-      { category: "not", text: "NOT" },
+      { category: "and" },
+      { category: "or" },
+      { category: "xor" },
+      { category: "not" },
+      { category: "nand" },
+      { category: "nor" },
+      { category: "xnor" },
+      // TODO: 添加 input, output, switch
     ]);
 
     // 将 palette 实例保存到 context
@@ -30,7 +36,7 @@ const CircuitPalette = () => {
       palette.div = null;
       setPalette(null);
     };
-  }, [setPalette]);
+  }, [setPalette, nodeTemplateMap]);
 
   return (
     <div

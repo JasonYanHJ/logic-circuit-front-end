@@ -4,13 +4,16 @@ import { initializeDiagram } from "../utils/gojsConfig";
 
 const CircuitDiagram = () => {
   const diagramRef = useRef(null);
-  const { setDiagram, setIsModified } = useCircuit();
+  const { setDiagram, setIsModified, nodeTemplateMap } = useCircuit();
 
   useEffect(() => {
     if (!diagramRef.current) return;
 
     // 使用配置函数初始化 GoJS 图表
     const diagram = initializeDiagram(diagramRef.current);
+
+    // 使用共享的节点模板
+    diagram.nodeTemplateMap = nodeTemplateMap;
 
     // 监听图表修改事件
     diagram.addDiagramListener("Modified", (e) => {
