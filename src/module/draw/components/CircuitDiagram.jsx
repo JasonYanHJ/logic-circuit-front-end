@@ -5,7 +5,8 @@ import { updateCircuitStates } from "../utils/circuitLogic";
 
 const CircuitDiagram = () => {
   const diagramRef = useRef(null);
-  const { setDiagram, setIsModified, nodeTemplateMap, linkTemplate } = useCircuit();
+  const { setDiagram, setIsModified, nodeTemplateMap, linkTemplate } =
+    useCircuit();
 
   useEffect(() => {
     if (!diagramRef.current) return;
@@ -15,14 +16,14 @@ const CircuitDiagram = () => {
 
     // 使用共享的节点模板
     diagram.nodeTemplateMap = nodeTemplateMap;
-    
+
     // 使用共享的连接线模板
     diagram.linkTemplate = linkTemplate;
-    
+
     // 设置模型的端口连接属性
     diagram.model.linkFromPortIdProperty = "fromPort";
     diagram.model.linkToPortIdProperty = "toPort";
-    
+
     // 将更新函数附加到 diagram 实例上，供交互组件使用
     diagram.updateCircuitStates = updateCircuitStates;
 
@@ -34,16 +35,13 @@ const CircuitDiagram = () => {
 
     // 将 diagram 实例保存到 context
     setDiagram(diagram);
-    
-    // 初始化时执行一次电路更新
-    setTimeout(() => updateCircuitStates(diagram), 100);
 
     // 清理函数
     return () => {
       diagram.div = null;
       setDiagram(null);
     };
-  }, [setDiagram, setIsModified]);
+  }, [linkTemplate, nodeTemplateMap, setDiagram, setIsModified]);
 
   return (
     <div

@@ -1,5 +1,4 @@
 // 主入口文件，整合所有组件
-import React, { useState } from "react";
 import { Row, Col, Card, message } from "antd";
 import * as go from "gojs";
 import { CircuitProvider, useCircuit } from "./contexts/CircuitContext";
@@ -10,7 +9,8 @@ import { saveToLocalStorage, loadFromLocalStorage } from "./utils/storage";
 
 // 内部组件，可以访问 CircuitContext
 const DrawPageContent = () => {
-  const { diagram, setIsModified, isSimulating, setIsSimulating } = useCircuit();
+  const { diagram, setIsModified, isSimulating, setIsSimulating } =
+    useCircuit();
 
   const handleSave = () => {
     if (!diagram) {
