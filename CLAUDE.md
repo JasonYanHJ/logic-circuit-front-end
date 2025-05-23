@@ -191,28 +191,50 @@ src/module/draw/
   - UI shows "未保存" tag when there are changes
   - Save button becomes primary when modifications exist
 
+### Completed Tasks (Continued)
+
+#### 5. Copy GoJS Extensions ✅
+- **Copied extension files**:
+  - `Figures.js` - Provides custom logic gate shapes (AndGate, OrGate, XorGate, NandGate, NorGate, XnorGate, Inverter)
+  - `AvoidsLinksRouter.js` - Intelligent link routing to prevent overlaps
+- **Added necessary imports**:
+  - Added `import * as go from "gojs"` to both extension files
+  - Modified `AvoidsLinksRouter.js` to use ES module export syntax
+- **Configured extensions**:
+  - Extensions are imported in `gojsConfig.js`
+  - AvoidsLinksRouter is configured with `epsilonDistance: 6` for better link spacing
+- **Verified functionality**:
+  - Tested that logic gate figures are properly registered in GoJS
+  - Confirmed figures can be used with `new go.Shape("AndGate")` syntax
+
+#### 6. Project Configuration Updates ✅
+- **Created utility files**:
+  - `utils/gojsConfig.js` - Centralized GoJS initialization for diagram and palette
+  - `utils/constants.js` - Color schemes, sizes, and animation constants
+  - `utils/storage.js` - localStorage operations for save/load functionality
+- **Updated components to use new configuration**:
+  - `CircuitDiagram.jsx` now uses `initializeDiagram()` from gojsConfig
+  - `CircuitPalette.jsx` now uses `initializePalette()` from gojsConfig
+  - Both components properly import and utilize the configured extensions
+
 ### Next Steps
 
-1. **Copy GoJS Extensions**
-   - Copy Figures.js from GoJS-example/extensions/
-   - Copy AvoidsLinksRouter.js from GoJS-example/extensions/
-
-2. **Implement Node Templates**
+1. **Implement Node Templates**
    - Create logic gate templates (AND, OR, XOR, etc.)
    - Create input/output component templates
    - Create switch component template
    - Set up proper port configurations
 
-3. **Configure Link Template**
+2. **Configure Link Template**
    - Implement link routing with AvoidsLinksRouter
    - Set up link styling and behavior
 
-4. **Share Templates Between Diagram and Palette**
+3. **Share Templates Between Diagram and Palette**
    - Create shared nodeTemplateMap
    - Configure palette layout
    - Add actual circuit components to palette
 
-5. **Implement Circuit Logic (Future)**
+4. **Implement Circuit Logic (Future)**
    - Port simulation logic from original example
    - Create update loop for circuit state
    - Implement interactive components (switches, inputs)

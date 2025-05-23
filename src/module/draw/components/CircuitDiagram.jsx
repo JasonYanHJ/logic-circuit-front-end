@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
-import * as go from "gojs";
 import { useCircuit } from "../contexts/CircuitContext";
+import { initializeDiagram } from "../utils/gojsConfig";
 
 const CircuitDiagram = () => {
   const diagramRef = useRef(null);
@@ -9,12 +9,8 @@ const CircuitDiagram = () => {
   useEffect(() => {
     if (!diagramRef.current) return;
 
-    // 初始化 GoJS 图表
-    const diagram = new go.Diagram(diagramRef.current, {
-      "draggingTool.isGridSnapEnabled": true,
-      "undoManager.isEnabled": true,
-      "grid.visible": true,
-    });
+    // 使用配置函数初始化 GoJS 图表
+    const diagram = initializeDiagram(diagramRef.current);
 
     // 监听图表修改事件
     diagram.addDiagramListener("Modified", (e) => {
