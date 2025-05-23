@@ -17,7 +17,11 @@ export const createInputTemplate = () => {
         e.diagram.model.setDataProperty(obj.data, 'isOn', isOn);
         e.diagram.commitTransaction('Toggle Input');
         
-        // TODO: 触发电路状态更新
+        // 触发电路状态更新
+        setTimeout(() => {
+          const updateFunc = e.diagram.updateCircuitStates;
+          if (updateFunc) updateFunc(e.diagram);
+        }, 0);
       }
     })
     .add(
@@ -119,7 +123,13 @@ export const createSwitchTemplate = () => {
           e.diagram.model.setDataProperty(obj.data, 'isOn', isOn);
           e.diagram.commitTransaction('Toggle Switch');
           
-          // TODO: 触发电路状态更新
+          // 如果关闭开关，立即更新状态
+          if (!isOn) {
+            setTimeout(() => {
+              const updateFunc = e.diagram.updateCircuitStates;
+              if (updateFunc) updateFunc(e.diagram);
+            }, 0);
+          }
         }
       }),
       // 输出端口

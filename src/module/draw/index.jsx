@@ -10,8 +10,7 @@ import { saveToLocalStorage, loadFromLocalStorage } from "./utils/storage";
 
 // 内部组件，可以访问 CircuitContext
 const DrawPageContent = () => {
-  const [isSimulating, setIsSimulating] = useState(false);
-  const { diagram, setIsModified } = useCircuit();
+  const { diagram, setIsModified, isSimulating, setIsSimulating } = useCircuit();
 
   const handleSave = () => {
     if (!diagram) {
@@ -79,8 +78,11 @@ const DrawPageContent = () => {
 
   const handleToggleSimulation = () => {
     setIsSimulating(!isSimulating);
-    // 暂不实现仿真功能
-    message.info("仿真功能正在开发中");
+    if (!isSimulating) {
+      message.success("仿真已启动");
+    } else {
+      message.info("仿真已停止");
+    }
   };
 
   return (

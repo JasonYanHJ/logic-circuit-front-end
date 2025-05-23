@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useCircuit } from "../contexts/CircuitContext";
 import { initializeDiagram } from "../utils/gojsConfig";
+import { updateCircuitStates } from "../utils/circuitLogic";
 
 const CircuitDiagram = () => {
   const diagramRef = useRef(null);
@@ -21,6 +22,9 @@ const CircuitDiagram = () => {
     // 设置模型的端口连接属性
     diagram.model.linkFromPortIdProperty = "fromPort";
     diagram.model.linkToPortIdProperty = "toPort";
+    
+    // 将更新函数附加到 diagram 实例上，供交互组件使用
+    diagram.updateCircuitStates = updateCircuitStates;
 
     // 监听图表修改事件
     diagram.addDiagramListener("Modified", (e) => {
@@ -30,6 +34,9 @@ const CircuitDiagram = () => {
 
     // 将 diagram 实例保存到 context
     setDiagram(diagram);
+    
+    // 初始化时执行一次电路更新
+    setTimeout(() => updateCircuitStates(diagram), 100);
 
     // 清理函数
     return () => {
