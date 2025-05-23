@@ -217,24 +217,60 @@ src/module/draw/
   - `CircuitPalette.jsx` now uses `initializePalette()` from gojsConfig
   - Both components properly import and utilize the configured extensions
 
+### Completed Tasks (Continued)
+
+#### 7. Node Templates Implementation ✅
+- **Created template structure**:
+  - `templates/nodeStyles.js` - Common styles and helper functions
+  - `templates/basicGates.js` - Basic logic gates (AND, OR, XOR, NOT)
+  - `templates/invertedGates.js` - Gates with inverted output (NAND, NOR, XNOR)
+  - `templates/index.js` - Template management and exports
+- **Key design decisions**:
+  - Used proper port positioning for each gate type
+  - OR/NOR gates: input ports at (0.16, y) due to curved left edge
+  - XOR/XNOR gates: input ports at (0.26, y) due to double curve
+  - Inverted gates: transparent output port with -5px offset to avoid circle
+  - All templates use shared styles for consistency
+
+#### 8. Link Template and Routing ✅
+- **Created link template** (`templates/linkTemplate.js`):
+  - Orthogonal routing with `go.Routing.AvoidsNodes`
+  - Jump-over effect for crossing links
+  - Relinkable connections
+  - Red color for false state (will change dynamically in simulation)
+- **Fixed connection issues**:
+  - Added link validation to enforce port connection rules
+  - Input ports limited to single connection (`toMaxLinks: 1`)
+  - Links connect to specific ports, not node centers
+  - Set up proper port ID properties in model
+- **AvoidsLinksRouter integration**:
+  - Already configured in `gojsConfig.js`
+  - Automatically separates parallel links with 6px spacing
+
+#### 9. Template Sharing Architecture ✅
+- **Improved architecture**:
+  - Templates created once in CircuitContext using `useMemo`
+  - Shared between Diagram and Palette via Context
+  - Avoids component coupling and follows single responsibility principle
+- **Applied templates**:
+  - CircuitDiagram uses shared node and link templates
+  - CircuitPalette uses shared node templates
+  - Both components remain independent
+
 ### Next Steps
 
-1. **Implement Node Templates**
-   - Create logic gate templates (AND, OR, XOR, etc.)
-   - Create input/output component templates
+1. **Implement Interactive Component Templates**
+   - Create input component template (battery/power source)
+   - Create output component template (LED/lamp)
    - Create switch component template
-   - Set up proper port configurations
+   - Add click interactions for inputs and switches
 
-2. **Configure Link Template**
-   - Implement link routing with AvoidsLinksRouter
-   - Set up link styling and behavior
+2. **Complete Palette Configuration**
+   - Add input, output, and switch to palette
+   - Optimize palette layout for all components
 
-3. **Share Templates Between Diagram and Palette**
-   - Create shared nodeTemplateMap
-   - Configure palette layout
-   - Add actual circuit components to palette
-
-4. **Implement Circuit Logic (Future)**
+3. **Implement Circuit Logic (Future)**
    - Port simulation logic from original example
    - Create update loop for circuit state
-   - Implement interactive components (switches, inputs)
+   - Implement color changes based on circuit state
+   - Add interactive animations for switches
