@@ -16,6 +16,9 @@ import {
   createXnorTemplate 
 } from './invertedGates';
 
+// 导入连接线模板
+import { createLinkTemplate } from './linkTemplate';
+
 // 创建并返回节点模板映射
 export function createNodeTemplateMap() {
   const nodeTemplateMap = new go.Map();
@@ -44,5 +47,6 @@ export {
   createNotTemplate,
   createNandTemplate,
   createNorTemplate,
-  createXnorTemplate
+  createXnorTemplate,
+  createLinkTemplate
 };

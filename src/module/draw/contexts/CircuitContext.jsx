@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useMemo } from "react";
-import { createNodeTemplateMap } from "../templates";
+import { createNodeTemplateMap, createLinkTemplate } from "../templates";
 
 const CircuitContext = createContext(null);
 
@@ -12,6 +12,9 @@ export const CircuitProvider = ({ children }) => {
 
   // 创建共享的节点模板映射，使用 useMemo 确保只创建一次
   const nodeTemplateMap = useMemo(() => createNodeTemplateMap(), []);
+  
+  // 创建共享的连接线模板
+  const linkTemplate = useMemo(() => createLinkTemplate(), []);
 
   const value = {
     circuitModel,
@@ -25,6 +28,7 @@ export const CircuitProvider = ({ children }) => {
     isModified,
     setIsModified,
     nodeTemplateMap,  // 共享的模板映射
+    linkTemplate,     // 共享的连接线模板
   };
 
   return (

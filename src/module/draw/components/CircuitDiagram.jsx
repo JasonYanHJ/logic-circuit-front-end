@@ -4,7 +4,7 @@ import { initializeDiagram } from "../utils/gojsConfig";
 
 const CircuitDiagram = () => {
   const diagramRef = useRef(null);
-  const { setDiagram, setIsModified, nodeTemplateMap } = useCircuit();
+  const { setDiagram, setIsModified, nodeTemplateMap, linkTemplate } = useCircuit();
 
   useEffect(() => {
     if (!diagramRef.current) return;
@@ -14,6 +14,13 @@ const CircuitDiagram = () => {
 
     // 使用共享的节点模板
     diagram.nodeTemplateMap = nodeTemplateMap;
+    
+    // 使用共享的连接线模板
+    diagram.linkTemplate = linkTemplate;
+    
+    // 设置模型的端口连接属性
+    diagram.model.linkFromPortIdProperty = "fromPort";
+    diagram.model.linkToPortIdProperty = "toPort";
 
     // 监听图表修改事件
     diagram.addDiagramListener("Modified", (e) => {
