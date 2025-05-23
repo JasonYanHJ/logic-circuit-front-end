@@ -153,3 +153,66 @@ src/module/draw/
 3. **Event Bridging** - GoJS events trigger React state updates via callbacks
 4. **Performance Optimization** - Use React.memo and careful re-render management
 5. **Clear Separation of Concerns** - Keep GoJS logic separate from React logic
+
+## Migration Progress
+
+### Completed Tasks
+
+#### 1. Basic Structure Setup ✅
+- Created directory structure according to the migration plan
+- Set up components, contexts, templates, utils, and extensions directories
+- Created placeholder files for organization
+
+#### 2. Core Components Implementation ✅
+- **CircuitDiagram.jsx**: GoJS diagram wrapper with proper lifecycle management
+- **CircuitPalette.jsx**: Component palette with temporary placeholder elements
+- **CircuitToolbar.jsx**: Toolbar with save/load/simulation controls
+- **CircuitContext.jsx**: Context provider for state management
+
+#### 3. State Management ✅
+- Implemented CircuitContext with:
+  - `diagram` and `palette` GoJS instance management
+  - `isModified` state to track unsaved changes
+  - `isSimulating` state for future simulation features
+- Connected components using `useCircuit` hook
+
+#### 4. Save/Load Functionality ✅
+- Created `utils/storage.js` for localStorage operations
+- Implemented save functionality:
+  - Serializes GoJS diagram to JSON
+  - Stores with metadata (timestamp, version)
+  - Updates UI to show save status
+- Implemented load functionality:
+  - Retrieves and parses stored data
+  - Restores diagram state
+  - Shows load confirmation with timestamp
+- Integrated modification tracking:
+  - GoJS 'Modified' event syncs with React state
+  - UI shows "未保存" tag when there are changes
+  - Save button becomes primary when modifications exist
+
+### Next Steps
+
+1. **Copy GoJS Extensions**
+   - Copy Figures.js from GoJS-example/extensions/
+   - Copy AvoidsLinksRouter.js from GoJS-example/extensions/
+
+2. **Implement Node Templates**
+   - Create logic gate templates (AND, OR, XOR, etc.)
+   - Create input/output component templates
+   - Create switch component template
+   - Set up proper port configurations
+
+3. **Configure Link Template**
+   - Implement link routing with AvoidsLinksRouter
+   - Set up link styling and behavior
+
+4. **Share Templates Between Diagram and Palette**
+   - Create shared nodeTemplateMap
+   - Configure palette layout
+   - Add actual circuit components to palette
+
+5. **Implement Circuit Logic (Future)**
+   - Port simulation logic from original example
+   - Create update loop for circuit state
+   - Implement interactive components (switches, inputs)
